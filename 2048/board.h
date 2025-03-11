@@ -40,7 +40,7 @@ public:
 	int MoveRight(int &score, int goal);
 	int MoveUp(int &score, int goal);
 	int MoveDown(int &score, int goal);
-	int MoveTile(LONG row_from, LONG col_from, LONG row_to, LONG col_to);
+	int MoveTile(LONG row_from, LONG col_from, LONG row_to, LONG col_to, bool& moved);
 	void ClearCombined();
 	void ResetAllAnimations();
 	bool isBoardMovable();

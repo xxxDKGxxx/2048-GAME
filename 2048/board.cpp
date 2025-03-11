@@ -74,6 +74,7 @@ void board::Reset()
 
 int board::MoveLeft(int &score, int goal)
 {
+	bool moved = false;
 	for (LONG column = 1; column < columns; ++column)
 	{
 		for (LONG row = 0; row < rows; ++row)
@@ -87,19 +88,19 @@ int board::MoveLeft(int &score, int goal)
 
 						if (m_fields[row * columns + col].tileNumber == m_fields[row * columns + column].tileNumber && !m_fields[row * columns + col].combined)
 						{
-							score += MoveTile(row, column, row, col);
+							score += MoveTile(row, column, row, col, moved);
 							if (m_fields[row * columns + col].tileNumber >= goal) return 1;
 							break;
 						}
 						else
 						{
-							score += MoveTile(row, column, row, col + 1);
+							score += MoveTile(row, column, row, col + 1, moved);
 							break;
 						}
 					}
 					if (col == 0)
 					{
-						score += MoveTile(row, column, row, col);
+						score += MoveTile(row, column, row, col, moved);
 						break;
 					}
 				}
@@ -107,12 +108,13 @@ int board::MoveLeft(int &score, int goal)
 		}
 	}
 	ClearCombined();
-	MakeRandomTwo();
+	if(moved == true) MakeRandomTwo();
 	return 0;
 }
 
 int board::MoveRight(int& score, int goal)
 {
+	bool moved = false;
 	for (LONG column = columns-2; column >= 0; --column)
 	{
 		for (LONG row = 0; row < rows; ++row)
@@ -126,19 +128,19 @@ int board::MoveRight(int& score, int goal)
 
 						if (m_fields[row * columns + col].tileNumber == m_fields[row * columns + column].tileNumber && !m_fields[row * columns + col].combined)
 						{
-							score += MoveTile(row, column, row, col);
+							score += MoveTile(row, column, row, col, moved);
 							if (m_fields[row * columns + col].tileNumber >= goal) return 1;
 							break;
 						}
 						else
 						{
-							score += MoveTile(row, column, row, col - 1);
+							score += MoveTile(row, column, row, col - 1, moved);
 							break;
 						}
 					}
 					if (col == columns - 1)
 					{
-						score += MoveTile(row, column, row, col);
+						score += MoveTile(row, column, row, col, moved);
 						break;
 					}
 				}
@@ -146,12 +148,13 @@ int board::MoveRight(int& score, int goal)
 		}
 	}
 	ClearCombined();
-	MakeRandomTwo();
+	if(moved) MakeRandomTwo();
 	return 0;
 }
 
 int board::MoveUp(int& score, int goal)
 {
+	bool moved = false;
 	for (LONG row = 1; row < rows; ++row)
 	{
 		for (LONG column = 0; column < columns; ++column)
@@ -165,19 +168,19 @@ int board::MoveUp(int& score, int goal)
 
 						if (m_fields[r * columns + column].tileNumber == m_fields[row * columns + column].tileNumber && !m_fields[r * columns + column].combined)
 						{
-							score += MoveTile(row, column, r, column);
+							score += MoveTile(row, column, r, column, moved);
 							if (m_fields[r * columns + column].tileNumber >= goal) return 1;
 							break;
 						}
 						else
 						{
-							score += MoveTile(row, column, r + 1, column);
+							score += MoveTile(row, column, r + 1, column, moved);
 							break;
 						}
 					}
 					if (r == 0)
 					{
-						score += MoveTile(row, column, r, column);
+						score += MoveTile(row, column, r, column, moved);
 						break;
 					}
 				}
@@ -185,12 +188,13 @@ int board::MoveUp(int& score, int goal)
 		}
 	}
 	ClearCombined();
-	MakeRandomTwo();
+	if(moved) MakeRandomTwo();
 	return 0;
 }
 
 int board::MoveDown(int& score, int goal)
 {
+	bool moved = false;
 	for (LONG row = rows - 2; row >= 0; --row)
 	{
 		for (LONG column = 0; column < columns; ++column)
@@ -204,19 +208,19 @@ int board::MoveDown(int& score, int goal)
 
 						if (m_fields[r * columns + column].tileNumber == m_fields[row * columns + column].tileNumber && !m_fields[r * columns + column].combined)
 						{
-							score += MoveTile(row, column, r, column);
+							score += MoveTile(row, column, r, column, moved);
 							if (m_fields[r * columns + column].tileNumber >= goal) return 1;
 							break;
 						}
 						else
 						{
-							score += MoveTile(row, column, r - 1, column);
+							score += MoveTile(row, column, r - 1, column, moved);
 							break;
 						}
 					}
 					if (r == rows - 1)
 					{
-						score += MoveTile(row, column, r, column);
+						score += MoveTile(row, column, r, column, moved);
 						break;
 					}
 				}
@@ -224,11 +228,11 @@ int board::MoveDown(int& score, int goal)
 		}
 	}
 	ClearCombined();
-	MakeRandomTwo();
+	if(moved) MakeRandomTwo();
 	return 0;
 }
 
-int board::MoveTile(LONG row_from, LONG col_from, LONG row_to, LONG col_to)
+int board::MoveTile(LONG row_from, LONG col_from, LONG row_to, LONG col_to, bool& moved)
 {
 	if (row_from == row_to && col_from == col_to)
 	{
@@ -242,12 +246,14 @@ int board::MoveTile(LONG row_from, LONG col_from, LONG row_to, LONG col_to)
 		m_fields[row_to * columns + col_to].tileNumber *= 2;
 		m_fields[row_to * columns + col_to].combined = true;
 		m_fields[row_to * columns + col_to].animationType = animationType::MERGE_ANIMATION;
+		moved = true;
 		return m_fields[row_to * columns + col_to].tileNumber;
 	}
 
 	// moving to empty tile
 	m_fields[row_to * columns + col_to].tileNumber = m_fields[row_from * columns + col_from].tileNumber;
 	m_fields[row_from * columns + col_from].tileNumber = 0;
+	moved = true;
 	return 0;
 }
 
