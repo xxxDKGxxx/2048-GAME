@@ -102,6 +102,13 @@ LRESULT app_2048::window_proc(HWND window, UINT message, WPARAM wparam, LPARAM l
 		}
 		on_key_pressed(wparam);
 		return 0;
+	case WM_SYSKEYDOWN:
+		if (wparam == VK_MENU) { // VK_MENU to kod klawisza Alt
+			// Wymuszenie aktywacji menu
+			SendMessage(window, WM_SYSCOMMAND, SC_KEYMENU, 0);
+			return 0;
+		}
+		break;
 	}
 	
 	return DefWindowProcW(window, message, wparam, lparam);
