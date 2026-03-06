@@ -6,7 +6,7 @@ A lightweight, native Windows implementation of the classic 2048 puzzle game, wr
 ![Platform](https://img.shields.io/badge/platform-Windows-0078d7.svg)
 ![Language](https://img.shields.io/badge/language-C%2B%2B-00599c.svg)
 
-## 🚀 Features
+## Features
 
 - **Native Windows Performance**: Built directly on the Windows API for a small footprint and high responsiveness.
 - **Classic Gameplay**: Experience the original 2048 mechanics where matching tiles merge into their sum.
@@ -15,7 +15,7 @@ A lightweight, native Windows implementation of the classic 2048 puzzle game, wr
 - **Game State Management**: Automatically saves and loads your progress using a local `.ini` file, so you can pick up right where you left off.
 - **Score Tracking**: Keep track of your progress as you merge tiles and aim for the high score.
 
-## 🎮 How to Play
+## How to Play
 
 ### Controls
 - **W**: Move Up
@@ -27,7 +27,7 @@ A lightweight, native Windows implementation of the classic 2048 puzzle game, wr
 ### Objective
 Slide the tiles on the 4x4 grid. When two tiles with the same number touch, they **merge into one**! Reach the target tile number (default is 2048) to win the game.
 
-## 🛠 Building from Source
+## Building from Source
 
 ### Prerequisites
 - **Microsoft Visual Studio** (2019 or later recommended)
@@ -43,7 +43,7 @@ Slide the tiles on the 4x4 grid. When two tiles with the same number touch, they
 4. Build the solution (**Ctrl + Shift + B**).
 5. Run the application from the output directory or directly from Visual Studio (**F5**).
 
-## 📂 Project Structure
+## Project Structure
 
 - `2048/main.cpp`: The entry point for the application.
 - `2048/app_2048.cpp/h`: Manages the main window, UI events, and GDI-based rendering.
@@ -52,4 +52,4 @@ Slide the tiles on the 4x4 grid. When two tiles with the same number touch, they
 
 ## 📜 License
 
-This project is open-source and available under the [MIT License](LICENSE). (Note: Add a LICENSE file to the root directory to officially apply this).
+This project is open-source and available under the [MIT License](LICENSE).
